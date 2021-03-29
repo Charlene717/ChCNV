@@ -1,6 +1,8 @@
 rm(list = ls()) # Clear variables
 
 library(copynumber)
+
+## Test below ##
 data(lymphoma)
 sub.lymphoma <- subsetData(data=lymphoma,sample=1:3)
 sub.lymphoma[1:10,]
@@ -32,6 +34,8 @@ plotCircle(segments=lymphoma.res,thres.gain=0.15,arcs=arcs)
 
 plotHeatmap(segments=lymphoma.res,upper.lim=0.3)
 plotAberration(segments=lymphoma.res,thres.gain=0.2)
+
+## Test above ##
 
 #
 # Main file
@@ -114,7 +118,10 @@ Target_gene_SD <- sd(data.matrix(Target_gene))
 
 GeneExp_High <- GeneExp[,GeneExp[Target_gene_name,] >= Target_gene_Mean+Target_gene_SD]
 GeneExp_Low <- GeneExp[,GeneExp[Target_gene_name,] <= Target_gene_Mean-Target_gene_SD]
-GeneExp_Medium <- GeneExp[,GeneExp[Target_gene_name,] <= Target_gene_Mean+Target_gene_SD & GeneExp[Target_gene_name,] >= Target_gene_Mean-Target_gene_SD]
+GeneExp_Medium <- GeneExp[,GeneExp[Target_gene_name,] < Target_gene_Mean+Target_gene_SD & GeneExp[Target_gene_name,] > Target_gene_Mean-Target_gene_SD]
+GeneExp_Medium2 <- GeneExp[,GeneExp[Target_gene_name,] < Target_gene_Mean+(Target_gene_SD/2) & GeneExp[Target_gene_name,] > Target_gene_Mean-(Target_gene_SD/2)]
+GeneExp_Medium3 <- GeneExp[,GeneExp[Target_gene_name,] < Target_gene_Mean+(Target_gene_SD/9) & GeneExp[Target_gene_name,] > Target_gene_Mean-(Target_gene_SD/9)]
+
 #####
 #library("plyr")
 #library(dplyr)
@@ -148,6 +155,23 @@ CNV_PDAC_Medium_2 <- left_join(CNV_PDAC_Medium,GeneExp_Medium_ColN,by="sampleID"
 CNV_PDAC_Medium_3 <- na.omit(CNV_PDAC_Medium_2)
 plotFreq(segments=CNV_PDAC_Medium_3,thres.gain=0.2,thres.loss=-0.1,ylim=c(-100,100))
 
+# Medium2
+GeneExp_Medium2_ColN <- as.data.frame(colnames(GeneExp_Medium2))
+GeneExp_Medium2_ColN[,2] <- GeneExp_Medium2_ColN
+colnames(GeneExp_Medium2_ColN) <- c("sampleID","sampleID.Check")
+CNV_PDAC_Medium2 <- CNV_PDAC
+CNV_PDAC_Medium2_2 <- left_join(CNV_PDAC_Medium2,GeneExp_Medium2_ColN,by="sampleID")
+CNV_PDAC_Medium2_3 <- na.omit(CNV_PDAC_Medium2_2)
+plotFreq(segments=CNV_PDAC_Medium2_3,thres.gain=0.2,thres.loss=-0.1,ylim=c(-100,100))
+
+# Medium3
+GeneExp_Medium3_ColN <- as.data.frame(colnames(GeneExp_Medium3))
+GeneExp_Medium3_ColN[,2] <- GeneExp_Medium3_ColN
+colnames(GeneExp_Medium3_ColN) <- c("sampleID","sampleID.Check")
+CNV_PDAC_Medium3 <- CNV_PDAC
+CNV_PDAC_Medium3_2 <- left_join(CNV_PDAC_Medium3,GeneExp_Medium3_ColN,by="sampleID")
+CNV_PDAC_Medium3_3 <- na.omit(CNV_PDAC_Medium3_2)
+plotFreq(segments=CNV_PDAC_Medium3_3,thres.gain=0.2,thres.loss=-0.1,ylim=c(-100,100))
 
 #All
 plotFreq(segments=CNV_PDAC,thres.gain=0.2,thres.loss=-0.1,ylim=c(-100,100))
