@@ -175,3 +175,16 @@ plotFreq(segments=CNV_PDAC_Medium3_3,thres.gain=0.2,thres.loss=-0.1,ylim=c(-100,
 
 #All
 plotFreq(segments=CNV_PDAC,thres.gain=0.2,thres.loss=-0.1,ylim=c(-100,100))
+
+
+# Multiple images in one
+plotFreq(segments=CNV_PDAC_High_3,thres.gain=c(0.1,0.2), thres.loss=c(-0.05,-0.1),ylim=c(-100,100), chrom=c(1:23),
+         layout=c(5,5),title="PDAC_TOP2A High_CNV")
+
+
+plotFreq(segments=CNV_PDAC_Medium3_3,thres.gain=c(0.1,0.2), thres.loss=c(-0.05,-0.1),ylim=c(-100,100), chrom=c(1:23),
+         layout=c(5,5),title="PDAC_TOP2A Medium_CNV")
+
+plotFreq(segments=CNV_PDAC_Low_3,thres.gain=c(0.1,0.2), thres.loss=c(-0.05,-0.1),ylim=c(-100,100), chrom=c(1:23),
+         layout=c(5,5),title="PDAC_TOP2A Low_CNV")
+
